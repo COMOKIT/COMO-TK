@@ -90,7 +90,7 @@ def genSbatchArray(output, submission = 1, maxSubmission = 1, nodes = 1, cpuPerT
 
 	return True
 
-def genVague(output, nodes = 1, cpuPerTask = 1, core = 1):	
+def genVague(output, nodes = 1, cpuPerTask = 1, core = 1):
 	try:
 		file = open(output + "/vague.cnf","w")
 		file.write( "0-" + str(int(nodes * core / cpuPerTask) - 1 ) + " " + output + "/launch_pack_8.sh %t" )
@@ -119,6 +119,12 @@ def genLaunchPack(gama, output, outputFolder, xmlPath, nodes = 1, cpuPerTask = 1
 		print("\tError while saving file")
 	
 	return True
+
+def generateSlurmFiles(gama, output, outputFolder, xmlPath, submission = 1, maxSubmission = 1, nodes = 1, cpuPerTask = 1, core = 1, maxHour = 1, EDF = False, delay = None):
+	genSbatchArray(output, submission, maxSubmission, nodes, cpuPerTask, core, maxHour, EDF)
+	genVague(output, nodes, cpuPerTask, core)
+	genLaunchPack(gama, output, outputFolder, xmlPath, nodes, cpuPerTask, core, delay)
+
 #
 #	MAIN
 #
