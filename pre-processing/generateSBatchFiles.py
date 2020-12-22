@@ -46,11 +46,11 @@ def setupGamaEnv(gamaPath, output, outputFolder, absolute = True, folder = None)
 					xmlPath = (os.path.abspath(folder + "/" + fname).rsplit("-", 1)[0] + "-") if absolute else ((folder + "/" + fname).rsplit("-", 1)[0] + "-")
 					break;
 			if xmlPath == "":
-				raise ValueError('The folder doesn\'t contain any XML file.')
+				raise TypeError('The folder doesn\'t contain any XML file.')
 		else: 
-			raise ValueError('The folder doesn\'t exist.')
+			raise TypeError('The folder doesn\'t exist.')
 	else:
-		raise ValueError('You should specify a folder with XML (w/ `-f`) or an XML (w/ `-x`) in your command.\nTry to launch the script with `-h` for full help options.')
+		raise Exception('You should specify a folder with XML (w/ `-f`) or an XML (w/ `-x`) in your command.\nTry to launch the script with `-h` for full help options.')
 
 	return xmlPath
 
@@ -86,7 +86,7 @@ def genSbatchArray(output, submission = 1, maxSubmission = 1, nodes = 1, cpuPerT
 		file.close()
 		os.chmod(output + "/sbatch_array.sh", 0o775)
 	except:
-		print("\tError while saving file")
+		raise Exception("\tError while saving file")
 
 	return True
 
@@ -96,7 +96,7 @@ def genVague(output, nodes = 1, cpuPerTask = 1, core = 1):
 		file.write( "0-" + str(int(nodes * core / cpuPerTask) - 1 ) + " " + output + "/launch_pack_8.sh %t" )
 		file.close()
 	except:
-		print("\tError while saving file")
+		raise Exception("\tError while saving file")
 
 	return True
 
@@ -116,7 +116,7 @@ def genLaunchPack(gama, output, outputFolder, xmlPath, nodes = 1, cpuPerTask = 1
 		file.close()
 		os.chmod(output + "/launch_pack_8.sh", 0o775)
 	except:
-		print("\tError while saving file")
+		raise Exception("\tError while saving file")
 	
 	return True
 
