@@ -116,6 +116,9 @@ def autoIndexSelector( argsFName ):
 
 def generateExperimentUniverse(gamlFilePath):
 
+	# Turn them all in absolute path
+	gamlFilePath = os.path.abspath(gamlFilePath)
+
 	# 1 _ Gather all parameters
 	# 
 	with open(gamlFilePath) as f:
@@ -146,6 +149,8 @@ def generateExperimentUniverse(gamlFilePath):
 
 def createXmlFiles(allParamValues, parametersList, xmlFilePath, replication = 1, split = -1, output = "../../batch_output", seed = 0, final = -1, until = ""):
 
+	xmlFilePath = os.path.abspath(xmlFilePath)
+	
 	# Prevent wrong path
 	if output[-1] == "/":
 		output = output[:-1]
@@ -274,11 +279,6 @@ if __name__ == '__main__':
 	args = parser.parse_args()
 
 	expName, gamlFilePath, xmlFilePath = args.xml
-	
-	# Turn them all in absolute path
-	gamlFilePath = os.path.abspath(gamlFilePath)
-	xmlFilePath = os.path.abspath(xmlFilePath)
-	args.output = os.path.abspath(os.path.split(gamlFilePath)[0] + "/" + args.output)
 
 	# 1 _ Gather all parameters
 	# 
@@ -297,7 +297,7 @@ if __name__ == '__main__':
 
 	print("\tNote : Real total number of simulation is " + str(len(allParamValues) * args.replication))
 
-	if createXmlFiles(allParamValues, parametersList, xmlFilePath, args.replication, args.split, args.output, args.seed, args.final, args.until) :
+	if createXmlFiles(allParamValues, parametersList, xmlFilePath, args.replication, args.split, os.path.abspath(os.path.split(gamlFilePath)[0] + "/" + args.output), args.seed, args.final, args.until) :
 		print("\n=== Done ;)")
 	else:
 		print("\n=== Error :(")
